@@ -59,7 +59,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Join Us</a>
+        <Link to='/signup' className="btn">Join Us</Link>
       </div>
     </div>
   );
