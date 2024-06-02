@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
-import signup from "../../assets/signup.jpg";
+import signin from "../../assets/signin.jpg";
 import logo from "../../assets/logo.jpg";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 
-const Signup = () => {
-  const [customError, setError] = useState("");
-
+const Signin = () => {
   const {
     register,
     handleSubmit,
@@ -14,14 +11,9 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { name, photo, email, password } = data;
+    const { photo, email, password } = data;
 
-    if (password.length < 6) {
-      setError("Password at least 6 character");
-      return;
-    }
-
-    console.log(name, photo, email);
+    console.log(photo, email, password);
   };
 
   return (
@@ -30,7 +22,7 @@ const Signup = () => {
         <div
           className="hidden bg-cover bg-center lg:block lg:w-1/2"
           style={{
-            backgroundImage: `url(${signup})`,
+            backgroundImage: `url(${signin})`,
           }}
         ></div>
 
@@ -40,7 +32,7 @@ const Signup = () => {
           </div>
 
           <p className="mt-3 font-bold text-xl text-center text-gray-600 ">
-            Signup Here
+            Signin Here
           </p>
 
           <div className="flex cursor-pointer items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg   hover:bg-gray-50 ">
@@ -66,7 +58,7 @@ const Signup = () => {
             </div>
 
             <span onClick="" className="w-5/6 px-4 py-3 font-bold text-center">
-              Sign up with Google
+              Sign in with Google
             </span>
           </div>
 
@@ -83,26 +75,13 @@ const Signup = () => {
             <div className="mt-4">
               <label
                 className="block mb-2 text-sm font-medium text-gray-600 "
-                htmlFor="name"
-              >
-                Username
-              </label>
-              <input className="input input-bordered w-full" placeholder="Name" {...register("name", { required: true })} /> <br />
-              {errors.name && (
-                <span className="text-red-500">Name field is required</span>
-              )}
-            </div>
-           
-            <div className="mt-4">
-              <label
-                className="block mb-2 text-sm font-medium text-gray-600 "
                 htmlFor="LoggingEmailAddress"
               >
                 Email Address
               </label>
               <input
                 className="input input-bordered w-full"
-                placeholder="Email"
+                placeholder="Your Email"
                 {...register("email", { required: true })}
               />{" "}
               <br />
@@ -122,7 +101,7 @@ const Signup = () => {
               </div>
               <input
                 className="input input-bordered w-full"
-                placeholder="Password"
+                placeholder="Your Password"
                 {...register("password", { required: true })}
               />{" "}
               <br />
@@ -130,33 +109,14 @@ const Signup = () => {
                 <span className="text-red-500">Password field is required</span>
               )}{" "}
               <br />
-              {customError && (
-                <span className="text-red-500">{customError}</span>
-              )}
             </div>
 
-
-            <div className="mt-4">
-              <div className="flex justify-between">
-                <label
-                  className="block mb-2 text-sm font-medium text-gray-600 "
-                  htmlFor="loggingPassword"
-                >
-                  Upload Your Image
-                </label>
-              </div>
-
-              <br />
-              <input {...register("photo")} type="file" className="file-input w-full max-w-xs" />
-              <br />
-            </div>
-            
             <div className="mt-6">
               <button
                 type="submit"
                 className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
               >
-                Sign Up
+                Sign in
               </button>
             </div>
           </form>
@@ -165,10 +125,10 @@ const Signup = () => {
             <span className="w-1/5 border-b  md:w-1/4"></span>
 
             <Link
-              to="/signin"
+              to="/signup"
               className="text-xs text-gray-500 uppercase  hover:underline"
             >
-              or sign in
+              or sign up
             </Link>
 
             <span className="w-1/5 border-b  md:w-1/4"></span>
@@ -179,4 +139,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Signin;
