@@ -1,9 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signin from "../../assets/signin.jpg";
 import logo from "../../assets/logo.jpg";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { authContext } from "../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Signin = () => {
+  const navigate = useNavigate();
+  const { googleSignup, signInEmail } = useContext(authContext);
+
+
+  const signupGoogle = () => {
+    googleSignup()
+     .then(()=> {
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: `Sign-in Success`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
+     })
+     .catch(error => {
+      Swal.fire({
+        position: "top",
+        icon: "error",
+        title: `${error?.message}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+     })
+  }
+
   const {
     register,
     handleSubmit,
@@ -11,19 +41,36 @@ const Signin = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { photo, email, password } = data;
+    const { email, password } = data;
 
-    console.log(photo, email, password);
+    try {
+      await signInEmail(email, password);
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: "Signin Success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
+    } catch (error) {
+      console.error("Sign In Error:", error);
+      Swal.fire({
+        position: "top",
+        icon: "error",
+        title: error?.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-306px)]">
-      <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl ">
+      <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg lg:max-w-4xl">
         <div
           className="hidden bg-cover bg-center lg:block lg:w-1/2"
-          style={{
-            backgroundImage: `url(${signin})`,
-          }}
+          style={{ backgroundImage: `url(${signin})` }}
         ></div>
 
         <div className="w-full px-6 py-8 md:px-8 lg:w-1/2">
@@ -31,11 +78,11 @@ const Signin = () => {
             <img className="w-auto h-7 sm:h-8" src={logo} alt="" />
           </div>
 
-          <p className="mt-3 font-bold text-xl text-center text-gray-600 ">
+          <p className="mt-3 font-bold text-xl text-center text-gray-600">
             Signin Here
           </p>
 
-          <div className="flex cursor-pointer items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg   hover:bg-gray-50 ">
+          <div className="flex cursor-pointer items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg hover:bg-gray-50">
             <div className="px-4 py-2">
               <svg className="w-6 h-6" viewBox="0 0 40 40">
                 <path
@@ -57,24 +104,26 @@ const Signin = () => {
               </svg>
             </div>
 
-            <span onClick="" className="w-5/6 px-4 py-3 font-bold text-center">
+            <span
+              onClick={signupGoogle}
+              className="w-5/6 px-4 py-3 font-bold text-center"
+            >
               Sign in with Google
             </span>
           </div>
 
           <div className="flex items-center justify-between mt-4">
-            <span className="w-1/5 border-b  lg:w-1/4"></span>
-
-            <div className="text-xs text-center text-gray-500 uppercase  hover:underline">
+            <span className="w-1/5 border-b lg:w-1/4"></span>
+            <div className="text-xs text-center text-gray-500 uppercase hover:underline">
               or Registration with email
             </div>
-
             <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
           </div>
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-4">
               <label
-                className="block mb-2 text-sm font-medium text-gray-600 "
+                className="block mb-2 text-sm font-medium text-gray-600"
                 htmlFor="LoggingEmailAddress"
               >
                 Email Address
@@ -93,13 +142,14 @@ const Signin = () => {
             <div className="mt-4">
               <div className="flex justify-between">
                 <label
-                  className="block mb-2 text-sm font-medium text-gray-600 "
+                  className="block mb-2 text-sm font-medium text-gray-600"
                   htmlFor="loggingPassword"
                 >
                   Password
                 </label>
               </div>
               <input
+                type="password"
                 className="input input-bordered w-full"
                 placeholder="Your Password"
                 {...register("password", { required: true })}
@@ -122,16 +172,14 @@ const Signin = () => {
           </form>
 
           <div className="flex items-center justify-between mt-4">
-            <span className="w-1/5 border-b  md:w-1/4"></span>
-
+            <span className="w-1/5 border-b md:w-1/4"></span>
             <Link
               to="/signup"
-              className="text-xs text-gray-500 uppercase  hover:underline"
+              className="text-xs text-gray-500 uppercase hover:underline"
             >
               or sign up
             </Link>
-
-            <span className="w-1/5 border-b  md:w-1/4"></span>
+            <span className="w-1/5 border-b md:w-1/4"></span>
           </div>
         </div>
       </div>

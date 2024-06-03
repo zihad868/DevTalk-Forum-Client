@@ -1,18 +1,45 @@
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineAddAlert } from "react-icons/md";
 import logo from "../assets/Logo/puzzle.avif";
+import { useContext } from "react";
+import { authContext } from "../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
+  const { user, signOutUser } = useContext(authContext);
+
+  const logoutUser = () => {
+    signOutUser()
+     .then(() => {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Sign-out Success",
+        showConfirmButton: false,
+        timer: 1500
+      });  
+     })
+     .catch(() => {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Sign-out Failed",
+        showConfirmButton: false,
+        timer: 1500
+      });
+     })
+  }
+
   const navLink = (
     <>
-      <NavLink to='/'>
+      <NavLink to="/">
         <li>Home</li>
       </NavLink>
-      <NavLink to='/membership'>
+      <NavLink to="/membership">
         <li>Membership</li>
       </NavLink>
       <NavLink>
-       <MdOutlineAddAlert className="mt-1 text-2xl" />
+        <MdOutlineAddAlert className="mt-1 text-2xl" />
         <p className=""> </p>
       </NavLink>
     </>
@@ -44,7 +71,7 @@ const Navbar = () => {
             {navLink}
           </ul>
         </div>
-        <Link to='/' className="flex">
+        <Link to="/" className="flex">
           <a className="text-2xl font-bold">
             <p>
               pu<span className="text-sky-600">zz</span>les
@@ -59,7 +86,37 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link to='/signin' className="btn">Join Us</Link>
+        {user?.email ? (
+          <>
+            <div className="dropdown dropdown-hover">
+              <div tabIndex={0}  className="">
+                <img className="w-14 rounded-full" src={user?.photoURL} alt="" />
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box mr-20"
+              >
+                <p className="p-2">
+                  {user?.displayName}
+                </p>
+                <Link className="bg-slate-400 p-1 rounded-full text-white" to=''>
+                  <button>DashBoard</button>
+                </Link>
+
+                <Link className="bg-slate-400 p-1 rounded-full text-white" to=''>
+                <button onClick={logoutUser}>Logout</button>
+                </Link>
+                
+              </ul>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to="/signin" className="btn">
+              Join Us
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
