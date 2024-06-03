@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const { createUser, updateUser } = useContext(authContext);
+  const { createUser, updateUser, googleSignup } = useContext(authContext);
   const [customError, setError] = useState("");
   const imageApi = import.meta.env.VITE_IMAGE_BB_API;
 
@@ -18,6 +18,29 @@ const Signup = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const signupGoogle = () => {
+    googleSignup()
+     .then(()=> {
+      Swal.fire({
+        position: "top",
+        icon: "success",
+        title: `Sign-Up Success`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/");
+     })
+     .catch(error => {
+      Swal.fire({
+        position: "top",
+        icon: "error",
+        title: `${error?.message}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+     })
+  }
 
   const onSubmit = async (data) => {
     const { name, photo, email, password, password2 } = data;
@@ -137,7 +160,7 @@ const Signup = () => {
               </svg>
             </div>
 
-            <span onClick="" className="w-5/6 px-4 py-3 font-bold text-center">
+            <span onClick={signupGoogle} className="w-5/6 px-4 py-3 font-bold text-center">
               Sign up with Google
             </span>
           </div>
