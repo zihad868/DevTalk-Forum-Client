@@ -39,9 +39,8 @@ const Navbar = () => {
         <li>Membership</li>
       </NavLink>
       <NavLink to="/notifications">
-        <li className="flex items-center">
-          <MdOutlineAddAlert className="text-2xl" />
-        </li>
+        <MdOutlineAddAlert className="text-2xl mt-1" />
+        <li className="flex items-center"></li>
       </NavLink>
     </>
   );
@@ -102,7 +101,10 @@ const Navbar = () => {
                   className="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-44"
                 >
                   <p className="p-2">{user?.displayName}</p>
-                  <Link to="/dashboard" className="p-2 rounded-full bg-slate-400 text-white">
+                  <Link
+                    to="/dashboard"
+                    className="p-2 rounded-full bg-slate-400 text-white"
+                  >
                     <button>Dashboard</button>
                   </Link>
                   <button
