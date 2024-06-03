@@ -2,10 +2,17 @@ import { Link } from "react-router-dom";
 import signup from "../../assets/signup.jpg";
 import logo from "../../assets/logo.jpg";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { authContext } from "../../provider/AuthProvider";
 
 const Signup = () => {
+  const { createUser } = useContext(authContext);
   const [customError, setError] = useState("");
+  const imageApi = import.meta.env.VITE_IMAGE_BB_API;
+
+  console.log(imageApi)
+
+  // console.log(createUser)
 
   const {
     register,
@@ -14,14 +21,26 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { name, photo, email, password } = data;
+    const { name, photo, email, password, password2 } = data;
 
     if (password.length < 6) {
       setError("Password at least 6 character");
       return;
     }
 
-    console.log(name, photo, email);
+    if (password2.length < 6) {
+      setError("Password at least 6 character");
+      return;
+    }
+
+    setError('')
+
+    if(password !== password2){
+      setError("Password does not match");
+      return;
+    }
+
+    console.log(name, email, password, password2);
   };
 
   return (
@@ -87,12 +106,17 @@ const Signup = () => {
               >
                 Username
               </label>
-              <input className="input input-bordered w-full" placeholder="Name" {...register("name", { required: true })} /> <br />
+              <input
+                className="input input-bordered w-full"
+                placeholder="Name"
+                {...register("name", { required: true })}
+              />{" "}
+              <br />
               {errors.name && (
                 <span className="text-red-500">Name field is required</span>
               )}
             </div>
-           
+
             <div className="mt-4">
               <label
                 className="block mb-2 text-sm font-medium text-gray-600 "
@@ -121,6 +145,7 @@ const Signup = () => {
                 </label>
               </div>
               <input
+                type="password"
                 className="input input-bordered w-full"
                 placeholder="Password"
                 {...register("password", { required: true })}
@@ -135,6 +160,30 @@ const Signup = () => {
               )}
             </div>
 
+            <div className="mt-4">
+              <div className="flex justify-between">
+                <label
+                  className="block mb-2 text-sm font-medium text-gray-600 "
+                  htmlFor="loggingPassword"
+                >
+                  Confirm Password
+                </label>
+              </div>
+              <input
+                type="password"
+                className="input input-bordered w-full"
+                placeholder="Confirm Password"
+                {...register("password2", { required: true })}
+              />{" "}
+              <br />
+              {errors.password && (
+                <span className="text-red-500">Password field is required</span>
+              )}{" "}
+              <br />
+              {customError && (
+                <span className="text-red-500">{customError}</span>
+              )}
+            </div>
 
             <div className="mt-4">
               <div className="flex justify-between">
@@ -147,10 +196,14 @@ const Signup = () => {
               </div>
 
               <br />
-              <input {...register("photo")} type="file" className="file-input w-full max-w-xs" />
+              <input
+                {...register("photo")}
+                type="file"
+                className="file-input w-full max-w-xs"
+              />
               <br />
             </div>
-            
+
             <div className="mt-6">
               <button
                 type="submit"
