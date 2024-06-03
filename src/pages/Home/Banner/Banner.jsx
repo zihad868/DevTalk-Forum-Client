@@ -1,4 +1,5 @@
 import banner from "../../../assets/Banner/banner.jpg";
+import { Typewriter } from "react-simple-typewriter";
 
 const Banner = () => {
   return (
@@ -10,8 +11,24 @@ const Banner = () => {
     >
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
-        <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold">Hello Programmer</h1>
+        <div className="max-w-2xl">
+          <h1 className="mb-5 text-5xl font-bold">
+            Welc
+            <span style={{ color: "skyblue", fontWeight: "bold" }}>
+              {/* Style will be inherited from the parent element */}
+              <Typewriter
+                words={["ome to our DevTalk !"]}
+                loop={5}
+                cursor
+                cursorStyle="_"
+                typeSpeed={70}
+                deleteSpeed={50}
+                delaySpeed={1000}
+                // onLoopDone={handleDone}
+                // onType={handleType}
+              />
+            </span>
+          </h1>
           <p className="mb-5">
             Welcome to DevTalk, your go-to platform for the latest in tech
             trends, coding tutorials, and developer insights. Join us and
@@ -19,7 +36,11 @@ const Banner = () => {
           </p>
           <div>
             <label className="input input-bordered flex items-center gap-2">
-              <input type="text" className="grow text-black font-bold" placeholder="Search" />
+              <input
+                type="text"
+                className="grow text-black font-bold"
+                placeholder="Search"
+              />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
