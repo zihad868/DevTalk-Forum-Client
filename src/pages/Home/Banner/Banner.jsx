@@ -11,7 +11,7 @@ const Banner = () => {
       <div className="hero-overlay bg-opacity-60"></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md">
-          <h1 className="mb-5 text-5xl font-bold">Hello Developer</h1>
+          <h1 className="mb-5 text-5xl font-bold">Hello Programmer</h1>
           <p className="mb-5">
             Welcome to DevTalk, your go-to platform for the latest in tech
             trends, coding tutorials, and developer insights. Join us and
@@ -19,12 +19,12 @@ const Banner = () => {
           </p>
           <div>
             <label className="input input-bordered flex items-center gap-2">
-              <input type="text" className="grow" placeholder="Search" />
+              <input type="text" className="grow text-black font-bold" placeholder="Search" />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
                 fill="currentColor"
-                className="w-3 h-4 opacity-70"
+                className="w-3 h-4 opacity-100"
               >
                 <path
                   fillRule="evenodd"
@@ -34,7 +34,7 @@ const Banner = () => {
               </svg>
             </label>
           </div>
-          <button className="btn btn-primary mt-2">Get Started</button>
+          <button className="btn btn-secondary mt-2">Get Started</button>
         </div>
       </div>
     </div>
