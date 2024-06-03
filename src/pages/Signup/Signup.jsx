@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signup from "../../assets/signup.jpg";
 import logo from "../../assets/logo.jpg";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { authContext } from "../../provider/AuthProvider";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const Signup = () => {
-  const { createUser } = useContext(authContext);
+  const navigate = useNavigate();
+  const { createUser, updateUser } = useContext(authContext);
   const [customError, setError] = useState("");
   const imageApi = import.meta.env.VITE_IMAGE_BB_API;
-
-  console.log(imageApi)
-
-  // console.log(createUser)
 
   const {
     register,
@@ -33,14 +32,68 @@ const Signup = () => {
       return;
     }
 
-    setError('')
+    setError("");
 
-    if(password !== password2){
+    if (password !== password2) {
       setError("Password does not match");
       return;
     }
 
-    console.log(name, email, password, password2);
+    // upload image
+    const formData = new FormData();
+    formData.append("image", photo[0]);
+
+    try {
+      const response = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${imageApi}`,
+        formData
+      );
+      const imageUrl = response.data.data.display_url;
+
+      console.log(name, email, password, password2, imageUrl);
+      createUser(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          updateUser(name, imageUrl)
+            .then(() => {
+              Swal.fire({
+                position: "top",
+                icon: "success",
+                title: `${user?.displayName} Sign-Up Success`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            })
+            .catch((error) => {
+              Swal.fire({
+                position: "top",
+                icon: "error",
+                title: `${error?.message}`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            });
+        })
+        .catch((error) => {
+          Swal.fire({
+            position: "top",
+            icon: "error",
+            title: `${error?.message}`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
+    } catch (error) {
+      Swal.fire({
+                position: "top",
+                icon: "error",
+                title: `Please Select Your Image`,
+                showConfirmButton: false,
+                timer: 1500
+              });
+    }
   };
 
   return (
