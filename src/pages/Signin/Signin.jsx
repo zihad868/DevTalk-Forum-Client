@@ -5,34 +5,49 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { authContext } from "../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 const Signin = () => {
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   const { googleSignup, signInEmail } = useContext(authContext);
 
 
   const signupGoogle = () => {
     googleSignup()
-     .then(()=> {
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: `Sign-in Success`,
-        showConfirmButton: false,
-        timer: 1500,
+      .then((result) => {
+        const userInfo = {
+          name: result.user?.displayName,
+          email: result.user?.email,
+          image: result.user?.photoURL
+        }
+
+        // Save user information
+        axiosPublic.post('/users', userInfo)
+          .then(res => {
+             console.log(res.data)
+             navigate('/')
+          })
+
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: `Sign-Up Success`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: `${error?.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
-      navigate("/");
-     })
-     .catch(error => {
-      Swal.fire({
-        position: "top",
-        icon: "error",
-        title: `${error?.message}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-     })
-  }
+  };
 
   const {
     register,

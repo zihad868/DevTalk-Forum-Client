@@ -107,12 +107,14 @@ const Navbar = () => {
                   >
                     <button>Dashboard</button>
                   </Link>
-                  <button
-                    onClick={logoutUser}
-                    className="mt-2 p-2 rounded-full bg-slate-400 text-white"
-                  >
-                    Logout
-                  </button>
+                  <div>
+                    <button
+                      onClick={logoutUser}
+                      className="mt-2 p-2 rounded-full bg-slate-400 text-white"
+                    >
+                      Logout
+                    </button>
+                  </div>
                 </ul>
               </div>
             ) : (

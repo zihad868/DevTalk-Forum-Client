@@ -6,8 +6,11 @@ import { useContext, useState } from "react";
 import { authContext } from "../../provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const Signup = () => {
+  const axiosPublic = useAxiosPublic();
+
   const navigate = useNavigate();
   const { createUser, updateUser, googleSignup } = useContext(authContext);
   const [customError, setError] = useState("");
@@ -16,31 +19,45 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const signupGoogle = () => {
     googleSignup()
-     .then(()=> {
-      Swal.fire({
-        position: "top",
-        icon: "success",
-        title: `Sign-Up Success`,
-        showConfirmButton: false,
-        timer: 1500,
+      .then((result) => {
+        const userInfo = {
+          name: result.user?.displayName,
+          email: result.user?.email,
+          image: result.user?.photoURL
+        }
+
+        // Save user information
+        axiosPublic.post('/users', userInfo)
+          .then(res => {
+             console.log(res.data)
+             navigate('/')
+          })
+
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: `Sign-Up Success`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: `${error?.message}`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
-      navigate("/");
-     })
-     .catch(error => {
-      Swal.fire({
-        position: "top",
-        icon: "error",
-        title: `${error?.message}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-     })
-  }
+  };
 
   const onSubmit = async (data) => {
     const { name, photo, email, password, password2 } = data;
@@ -80,14 +97,26 @@ const Signup = () => {
 
           updateUser(name, imageUrl)
             .then(() => {
-              Swal.fire({
-                position: "top",
-                icon: "success",
-                title: `${user?.displayName} Sign-Up Success`,
-                showConfirmButton: false,
-                timer: 1500,
+              const userInfo = {
+                name: name,
+                email: email,
+                image: imageUrl
+              };
+
+              // Store User information Data Base
+              axiosPublic.post("/users", userInfo).then((res) => {
+                if (res.data.insertedId) {
+                  reset();
+                  Swal.fire({
+                    position: "top",
+                    icon: "success",
+                    title: `${user?.displayName} Sign-Up Success`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  navigate("/");
+                }
               });
-              navigate("/");
             })
             .catch((error) => {
               Swal.fire({
@@ -110,12 +139,12 @@ const Signup = () => {
         });
     } catch (error) {
       Swal.fire({
-                position: "top",
-                icon: "error",
-                title: `Please Select Your Image`,
-                showConfirmButton: false,
-                timer: 1500
-              });
+        position: "top",
+        icon: "error",
+        title: `Please Select Your Image`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
@@ -160,7 +189,10 @@ const Signup = () => {
               </svg>
             </div>
 
-            <span onClick={signupGoogle} className="w-5/6 px-4 py-3 font-bold text-center">
+            <span
+              onClick={signupGoogle}
+              className="w-5/6 px-4 py-3 font-bold text-center"
+            >
               Sign up with Google
             </span>
           </div>
