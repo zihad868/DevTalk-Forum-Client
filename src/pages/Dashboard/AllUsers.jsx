@@ -12,6 +12,33 @@ const AllUsers = () => {
     return <Loading />;
   }
 
+  const handleDeleteUser = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/users/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: "Make Admin Success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        });
+      }
+    });
+  };
+
   const handleMakeAdmin = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -20,23 +47,23 @@ const AllUsers = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Make Admin!"
-    }).then(async(result) => {
+      confirmButtonText: "Yes, Make Admin!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axiosSecure.patch(`/users/admin/${id}`)
-        if(res.data.modifiedCount > 0){
+        const res = await axiosSecure.patch(`/users/admin/${id}`);
+        if (res.data.modifiedCount > 0) {
           refetch();
           Swal.fire({
-            position: "top-end",
+            position: "top",
             icon: "success",
             title: "Make Admin Success",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
         }
       }
     });
-  }
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -55,7 +82,7 @@ const AllUsers = () => {
         <tbody>
           {users.map((user, idx) => (
             <tr key={user._id}>
-              <th>{idx+1}</th>
+              <th>{idx + 1}</th>
               <td>
                 <div className="flex items-center gap-3">
                   <div className="avatar">
@@ -68,20 +95,25 @@ const AllUsers = () => {
                   </div>
                 </div>
               </td>
-              <td>
-                {user?.name}
-              </td>
+              <td>{user?.name}</td>
               <td>{user?.email}</td>
               <th>
-                 {
-                    user?.role === 'admin' ? 'Admin' : 
-                    <>
-                      <button onClick={() => handleMakeAdmin(user._id)} className="btn btn-secondary"><RiAdminFill />Make Admin</button>
-                    </>
-                 }
+                {user?.role === "admin" ? (
+                  "Admin"
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleMakeAdmin(user._id)}
+                      className="btn btn-secondary"
+                    >
+                      <RiAdminFill />
+                      Make Admin
+                    </button>
+                  </>
+                )}
               </th>
               <th>
-              <button className="btn btn-error">Delete User</button>
+                <button onClick={() => handleDeleteUser(user._id)} className="btn btn-error">Delete User</button>
               </th>
             </tr>
           ))}
