@@ -10,7 +10,7 @@ const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const [users, refetch, isPending] = useAllUsers();
 
-  if (isPending || loading) {
+  if (isPending || loading || isPending) {
     return <Loading />;
   }
 
