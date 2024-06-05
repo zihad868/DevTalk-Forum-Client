@@ -10,11 +10,7 @@ const useAllUsers = () => {
     const {data: users = [], refetch,  isPending} = useQuery({
         queryKey: ['isAdmin', user?.email],
         queryFn: async () => {
-            const res = await axiosSecure.get('/users', {
-                headers: {
-                    authorization: `Bearer ${localStorage.getItem('access-token')}`
-                }
-            })
+            const res = await axiosSecure.get('/users')
             return res.data
         }
     })
