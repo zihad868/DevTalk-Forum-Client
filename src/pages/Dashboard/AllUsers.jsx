@@ -3,12 +3,14 @@ import useAllUsers from "../../hooks/useAllUsers";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading/Loading";
 import { RiAdminFill } from "react-icons/ri";
+import useAuth from "../../hooks/useAuth";
 
 const AllUsers = () => {
+  const { loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [users, refetch, isPending] = useAllUsers();
 
-  if (isPending) {
+  if (isPending || loading) {
     return <Loading />;
   }
 
@@ -113,7 +115,12 @@ const AllUsers = () => {
                 )}
               </th>
               <th>
-                <button onClick={() => handleDeleteUser(user._id)} className="btn btn-error">Delete User</button>
+                <button
+                  onClick={() => handleDeleteUser(user._id)}
+                  className="btn btn-error"
+                >
+                  Delete User
+                </button>
               </th>
             </tr>
           ))}
