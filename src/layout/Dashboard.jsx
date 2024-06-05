@@ -2,9 +2,15 @@ import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { FaHome, FaUsers } from "react-icons/fa";
 import { MdOutlineMedicalInformation } from "react-icons/md";
+import useAdmin from "../hooks/useAdmin";
+import Loading from "../shared/Loading/Loading";
 
 const Dashboard = () => {
-  const isAdmin = true;
+const [isAdmin, adminLoading] = useAdmin();
+
+  if(adminLoading){
+    return <Loading />
+  }
 
   return (
     <div className="flex">

@@ -8,7 +8,7 @@ const useAllUsers = () => {
     const axiosSecure = useAxiosSecure();
 
     const {data: users = [], refetch,  isPending} = useQuery({
-        queryKey: ['isAdmin', user?.email],
+        queryKey: ['admin', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get('/users')
             return res.data
