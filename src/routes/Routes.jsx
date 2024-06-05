@@ -7,9 +7,11 @@ import Signin from "../pages/Signin/Signin";
 import NotFound from "../pages/NotFount/NotFount";
 import Dashboard from '../layout/Dashboard';
 import AdminHome from "../pages/Dashboard/AdminHome";
-import UserHome from "../pages/Dashboard/UserHome";
 import AllUsers from "../pages/Dashboard/AllUsers";
 import AdminRoutes from "./AdminRoutes";
+import MyProfile from "../pages/Dashboard/MyProfile";
+import AddPost from "../pages/Dashboard/AddPost";
+import MyPosts from "../pages/Dashboard/MyPosts";
 
 
 const router = createBrowserRouter([
@@ -56,9 +58,17 @@ const router = createBrowserRouter([
 
         // User Role
         {
-           path: 'userHome',
-           element: <UserHome />
-        }
+           path: 'myProfile',
+           element: <MyProfile />
+        },
+        {
+          path: 'addPost',
+          element: <AddPost />
+        },
+        {
+          path: 'myPosts',
+          element: <MyPosts />
+        },
 
       ]
     }
