@@ -18,28 +18,28 @@ const Dashboard = () => {
       <div className="w-60 min-h-screen bg-purple-500 text-white p-4 space-y-2">
         {isAdmin ? (
           <>
-            <NavLink to="/dashboard/adminHome">
+            <NavLink to="/dashboard/adminProfile">
               <button className="btn w-full mt-12">
                 <FaHome />
                 Admin Profile
               </button>
             </NavLink>
 
-            <NavLink to="/dashboard/allUsers">
+            <NavLink to="/dashboard/manageUsers">
               <button className="btn w-full mt-3">
                 <FaUsers />
                 Manage Users
               </button>
             </NavLink>
 
-            <NavLink>
+            <NavLink to="/dashboard/reportedActivities">  
               <button className="btn w-full mt-3">
                 <MdOutlineMedicalInformation />
                 Reported Activities
               </button>
             </NavLink>
 
-            <NavLink>
+            <NavLink to="/dashboard/makeAnnouncement">  
               <button className="btn w-full mt-3">
                 <MdOutlineMedicalInformation />
                 Make Announcement

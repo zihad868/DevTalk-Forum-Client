@@ -5,7 +5,7 @@ import Loading from "../../shared/Loading/Loading";
 import { RiAdminFill } from "react-icons/ri";
 import useAuth from "../../hooks/useAuth";
 
-const AllUsers = () => {
+const ManageUsers = () => {
   const { loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [users, refetch, isPending] = useAllUsers();
@@ -130,4 +130,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default ManageUsers;
