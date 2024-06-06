@@ -1,20 +1,26 @@
 import { useForm, Controller } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import SectionTitle from "../../shared/SectionTitle/SectionTitle";
-import Select from 'react-select';
+import Select from "react-select";
+import axios from "axios";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const options = [
-  { value: 'javascript', label: 'JavaScript' },
-  { value: 'react', label: 'React' },
-  { value: 'python', label: 'Python' },
-  { value: 'django', label: 'Django' },
-  { value: 'flask', label: 'Flask' },
-  { value: 'c', label: 'C' },
-  { value: 'ruby', label: 'Ruby' },
+  { value: "javascript", label: "JavaScript" },
+  { value: "react", label: "React" },
+  { value: "python", label: "Python" },
+  { value: "django", label: "Django" },
+  { value: "flask", label: "Flask" },
+  { value: "c", label: "C" },
+  { value: "ruby", label: "Ruby" },
 ];
 
 const AddPost = () => {
+  const axiosSecure = useAxiosSecure();
+  const imageApi = import.meta.env.VITE_IMAGE_BB_API;
   const { user } = useAuth();
+  const { displayName: authName, email: authEmail, photoURL: authPhoto } = user;
 
   const {
     register,
@@ -24,9 +30,66 @@ const AddPost = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { title, description, tag } = data;
+    const { title, description, tag, image } = data;
 
-    console.log(title, description, tag.value)
+    // upload image
+    const formData = new FormData();
+    formData.append("image", image[0]);
+
+    try {
+      const response = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${imageApi}`,
+        formData
+      );
+      const imageUrl = response.data.data.display_url;
+      const upVote = 0;
+      const downVote = 0;
+      const postImage = imageUrl;
+      const postTag = tag?.value
+
+      console.log(tag);
+      const postInfo = {
+        authName,
+        authEmail,
+        authPhoto,
+        title,
+        description,
+        postImage,
+        postTag,
+        upVote,
+        downVote
+      };
+      console.log(postInfo);
+
+      const res = await axiosSecure.post("/post", postInfo);
+
+      if(res.data?.insertedId){
+        Swal.fire({
+          position: "top",
+          icon: "success",
+          title: "Menu Items Add Success",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+      else{
+        Swal.fire({
+          position: "top",
+          icon: "error",
+          title: `Post Failed`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        position: "top",
+        icon: "error",
+        title: `Please Select Post Image`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   return (
@@ -66,7 +129,9 @@ const AddPost = () => {
               {...register("description", { required: true })}
             />
             {errors.description && (
-              <span className="text-red-500">Description field is required</span>
+              <span className="text-red-500">
+                Description field is required
+              </span>
             )}
           </div>
 
@@ -93,6 +158,25 @@ const AddPost = () => {
             {errors.tag && (
               <span className="text-red-500">Tag field is required</span>
             )}
+          </div>
+
+          <div className="mt-4">
+            <div className="flex justify-between">
+              <label
+                className="block mb-2 text-sm font-medium text-gray-600 "
+                htmlFor="loggingPassword"
+              >
+                Upload Your Image
+              </label>
+            </div>
+
+            <br />
+            <input
+              {...register("image")}
+              type="file"
+              className="file-input w-full max-w-xs"
+            />
+            <br />
           </div>
 
           <div className="mt-6">
