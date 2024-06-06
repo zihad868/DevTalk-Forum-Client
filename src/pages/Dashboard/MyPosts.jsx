@@ -3,12 +3,13 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading/Loading";
 import SectionTitle from "../../shared/SectionTitle/SectionTitle";
+import Swal from "sweetalert2";
 
 const MyPosts = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: posts = [], isPending } = useQuery({
+  const { data: posts = [], isPending, refetch } = useQuery({
     queryKey: ["posts", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/posts/${user?.email}`);
@@ -16,7 +17,43 @@ const MyPosts = () => {
     },
   });
 
-  console.log(posts);
+  const handleDelete = (post) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/posts/${post._id}`)
+        .then(res => {
+           if(res.data.deletedCount > 0){
+            refetch();
+            Swal.fire({
+              position: "top",
+              icon: "success",
+              title: "Successfully Removed",
+              showConfirmButton: false,
+              timer: 1500
+            });
+           }
+        })
+        .catch(error => {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: error,
+            showConfirmButton: false,
+            timer: 1500
+          });
+        })
+      }
+    });
+    
+  }
 
   if (isPending || loading) {
     return <Loading />;
@@ -59,7 +96,7 @@ const MyPosts = () => {
                     <button className="btn btn-secondary">View Comments</button>
                   </td>
                   <th>
-                    <button className="btn btn-error text-white">Delete</button>
+                    <button onClick={() => handleDelete(post)} className="btn btn-error text-white">Delete</button>
                   </th>
                 </tr>
               ))}
