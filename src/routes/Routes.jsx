@@ -14,6 +14,7 @@ import AdminProfile from "../pages/Dashboard/AdminProfile";
 import ManageUsers from "../pages/Dashboard/ManageUsers";
 import ReportedActivities from "../pages/Dashboard/ReportedActivities";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement";
+import PrivateRoutes from "./PrivateRoutes";
 
 
 const router = createBrowserRouter([
@@ -69,15 +70,15 @@ const router = createBrowserRouter([
         // User Role
         {
            path: 'myProfile',
-           element: <MyProfile />
+           element: <PrivateRoutes> <MyProfile /> </PrivateRoutes> 
         },
         {
           path: 'addPost',
-          element: <AddPost />
+          element: <PrivateRoutes> <AddPost /> </PrivateRoutes>
         },
         {
           path: 'myPosts',
-          element: <MyPosts />
+          element: <PrivateRoutes> <MyPosts /> </PrivateRoutes>
         },
 
       ]
