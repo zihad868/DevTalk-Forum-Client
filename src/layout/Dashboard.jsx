@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { FaHome, FaUsers } from "react-icons/fa";
-import { MdOutlineMedicalInformation, MdPostAdd } from "react-icons/md";
+import { MdPostAdd } from "react-icons/md";
 import { BsPostcardHeartFill } from "react-icons/bs";
 import useAdmin from "../hooks/useAdmin";
 import Loading from "../shared/Loading/Loading";
+import { LuActivity } from "react-icons/lu";
+import { GrAnnounce } from "react-icons/gr";
 
 const Dashboard = () => {
   const [isAdmin, adminLoading] = useAdmin();
@@ -34,14 +36,14 @@ const Dashboard = () => {
 
             <NavLink to="/dashboard/reportedActivities">  
               <button className="btn w-full mt-3">
-                <MdOutlineMedicalInformation />
+                <LuActivity />
                 Reported Activities
               </button>
             </NavLink>
 
             <NavLink to="/dashboard/makeAnnouncement">  
-              <button className="btn w-full mt-3">
-                <MdOutlineMedicalInformation />
+              <button className="btn w-full mt-3 mb-12">
+                <GrAnnounce />
                 Make Announcement
               </button>
             </NavLink>

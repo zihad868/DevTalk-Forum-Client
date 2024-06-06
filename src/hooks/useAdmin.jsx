@@ -5,7 +5,6 @@ import useAxiosSecure from "./useAxiosSecure";
 const useAdmin = () => {
   const { user, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
-  console.log("loading -->", loading)
   
   const {data: isAdmin, isPending: adminLoading} = useQuery({
      queryKey: [user?.email ,'isAdmin'],
