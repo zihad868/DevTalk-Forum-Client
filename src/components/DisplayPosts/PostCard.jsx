@@ -1,5 +1,22 @@
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import usePosts from "../../hooks/usePosts";
+
 const PostCard = ({ post }) => {
+  const axiosPublic = useAxiosPublic();
+  const [ , , refetch] = usePosts();
   console.log(post);
+
+  const handleUpVote = (id) => {
+    axiosPublic.post(`/post/upvote/${id}`)
+    refetch();
+  }
+
+  const handleDownVote = (id) => {
+    axiosPublic.post(`/post/downvote/${id}`)
+    refetch();
+  }
+
+
   return (
     <div>
       <div className="flex flex-col max-w-6xl mx-auto p-6 space-y-6 overflow-hidden rounded-lg shadow-md dark:bg-gray-50 dark:text-gray-800">
@@ -61,7 +78,7 @@ const PostCard = ({ post }) => {
             </button>
           </div>
           <div className="flex space-x-2 text-sm dark:text-gray-600">
-            <button type="button" className="flex items-center p-1 space-x-1.5">
+            <button onClick={() => handleUpVote(post._id)} type="button" className="flex items-center p-1 space-x-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -74,7 +91,7 @@ const PostCard = ({ post }) => {
               <span>{post.upVote}</span>
             </button>
 
-            <button type="button" className="flex items-center p-1 space-x-1.5">
+            <button onClick={() => handleDownVote(post._id)} type="button" className="flex items-center p-1 space-x-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
