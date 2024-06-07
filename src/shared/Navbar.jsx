@@ -96,26 +96,28 @@ const Navbar = () => {
                     alt="User Avatar"
                   />
                 </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-44"
-                >
-                  <p className="p-2">{user?.displayName}</p>
-                  <Link
-                    to="/dashboard"
-                    className="p-2 rounded-full bg-slate-400 text-white"
+                <div className="mr-32">
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-32 space-y-2"
                   >
-                    <button>Dashboard</button>
-                  </Link>
-                  <div>
-                    <button
-                      onClick={logoutUser}
-                      className="mt-2 p-2 rounded-full bg-slate-400 text-white"
+                    <p className="p-2">{user?.displayName}</p>
+                    <Link
+                      to="/dashboard"
+                      className="p-2 rounded-full bg-slate-400 text-white"
                     >
-                      Logout
-                    </button>
-                  </div>
-                </ul>
+                      <button>Dashboard</button>
+                    </Link>
+                    <div>
+                      <button
+                        onClick={logoutUser}
+                        className="mt-2 p-2 rounded-full bg-slate-400 text-white"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  </ul>
+                </div>
               </div>
             ) : (
               <Link to="/signin" className="btn">
