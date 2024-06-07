@@ -5,6 +5,7 @@ import Select from "react-select";
 import axios from "axios";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import moment from 'moment';
 
 const options = [
   { value: "javascript", label: "JavaScript" },
@@ -45,7 +46,8 @@ const AddPost = () => {
       const upVote = 0;
       const downVote = 0;
       const postImage = imageUrl;
-      const postTag = tag?.value
+      const postTag = tag?.value;
+      const createDate = moment().format('MMMM Do YYYY, h:mm:ss a');
 
       console.log(tag);
       const postInfo = {
@@ -57,7 +59,8 @@ const AddPost = () => {
         postImage,
         postTag,
         upVote,
-        downVote
+        downVote,
+        createDate
       };
       console.log(postInfo);
 
