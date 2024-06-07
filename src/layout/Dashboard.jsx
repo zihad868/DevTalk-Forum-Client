@@ -16,8 +16,8 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex">
-      <div className="w-60 min-h-screen bg-purple-500 text-white p-4 space-y-2">
+    <div className="lg:flex">
+      <div className="lg:w-60 min-h-screen bg-purple-500 text-white p-4 space-y-2">
         {isAdmin ? (
           <>
             <NavLink to="/dashboard/adminProfile">
