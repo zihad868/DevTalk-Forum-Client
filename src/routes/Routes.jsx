@@ -15,6 +15,7 @@ import ManageUsers from "../pages/Dashboard/ManageUsers";
 import ReportedActivities from "../pages/Dashboard/ReportedActivities";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement";
 import PrivateRoutes from "./PrivateRoutes";
+import Comments from "../pages/Comments/Comments";
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         {
             path: '/membership',
             element: <Membership />
+        },
+        {
+            path: '/comments/:id',
+            element: <PrivateRoutes> <Comments /> </PrivateRoutes>
         },
         {
           path: '/signin',

@@ -4,6 +4,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading/Loading";
 import SectionTitle from "../../shared/SectionTitle/SectionTitle";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const MyPosts = () => {
   const { user, loading } = useAuth();
@@ -93,7 +94,7 @@ const MyPosts = () => {
                     </span>
                   </td>
                   <td>
-                    <button className="btn btn-secondary">View Comments</button>
+                    <Link to={`/comments/${post._id}`}><button className="btn btn-secondary">View Comments</button></Link>
                   </td>
                   <th>
                     <button onClick={() => handleDelete(post)} className="btn btn-error text-white">Delete</button>
