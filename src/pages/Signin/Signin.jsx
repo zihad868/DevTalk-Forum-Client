@@ -19,7 +19,8 @@ const Signin = () => {
         const userInfo = {
           name: result.user?.displayName,
           email: result.user?.email,
-          image: result.user?.photoURL
+          image: result.user?.photoURL,
+          badge: 'bronze'
         }
 
         // Save user information

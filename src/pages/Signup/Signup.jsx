@@ -29,7 +29,8 @@ const Signup = () => {
         const userInfo = {
           name: result.user?.displayName,
           email: result.user?.email,
-          image: result.user?.photoURL
+          image: result.user?.photoURL,
+          badge: 'bronze'
         }
 
         // Save user information
@@ -100,7 +101,8 @@ const Signup = () => {
               const userInfo = {
                 name: name,
                 email: email,
-                image: imageUrl
+                image: imageUrl,
+                badge: 'bronze'
               };
 
               // Store User information Data Base
