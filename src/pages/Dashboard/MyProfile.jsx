@@ -1,12 +1,18 @@
+import usePostEmail from "../../hooks/usePostEmail";
 import useUser from "../../hooks/useUser";
 import Loading from "../../shared/Loading/Loading";
+import ProfilePostCard from "./ProfilePostCard";
+
 
 const MyProfile = () => {
   const [dbUser, isPending] = useUser();
   const badge = dbUser?.badge;
 
+  const [userPost, postPending] = usePostEmail();
 
-  if (isPending) {
+  console.log(userPost)
+
+  if (isPending || postPending) {
     return <Loading />;
   }
 
@@ -130,6 +136,15 @@ const MyProfile = () => {
           </div>
         </div>
       </div>
+
+      {/* Display Post */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3">
+        {
+          // console.log(userPost)
+          userPost.map(post => <ProfilePostCard key={post._id} post={post}/>)
+        }
+      </div>
+
     </div>
   );
 };

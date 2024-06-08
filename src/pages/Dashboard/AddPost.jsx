@@ -70,7 +70,7 @@ const AddPost = () => {
         Swal.fire({
           position: "top",
           icon: "success",
-          title: "Menu Items Add Success",
+          title: "Post Add Success",
           showConfirmButton: false,
           timer: 1500
         });
