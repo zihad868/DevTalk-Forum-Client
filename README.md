@@ -5,8 +5,10 @@
 ## Live Link
 -  https://devtalk-ee27e.web.app/
 
-## Admin email: admin@gmail.com
-## Admin password: admin123
+## Admin Email & Password
+email: admin@gmail.com
+Admin password: admin123
+
   
 ## Features and characteristics
 -  Click one category and data show based on the category
