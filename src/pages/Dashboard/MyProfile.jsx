@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
 import usePostEmail from "../../hooks/usePostEmail";
 import useUser from "../../hooks/useUser";
 import Loading from "../../shared/Loading/Loading";
 import ProfilePostCard from "./ProfilePostCard";
-
 
 const MyProfile = () => {
   const [dbUser, isPending] = useUser();
@@ -10,7 +10,7 @@ const MyProfile = () => {
 
   const [userPost, postPending] = usePostEmail();
 
-  console.log(userPost)
+  console.log(userPost);
 
   if (isPending || postPending) {
     return <Loading />;
@@ -26,11 +26,14 @@ const MyProfile = () => {
           {badge === "gold" ? (
             <>
               <div className="flex justify-center items-center space-x-2">
-                <button className="btn btn-secondary">
-                  Gold Membership
-                </button>
+                <button className="btn btn-secondary">Gold Membership</button>
                 <div>
-                  <button disabled={badge === 'gold'} className="btn btn-error ml-12">Pay</button>
+                  <button
+                    disabled={badge === "gold"}
+                    className="btn btn-error ml-12"
+                  >
+                    Pay
+                  </button>
                 </div>
               </div>
             </>
@@ -41,17 +44,17 @@ const MyProfile = () => {
           {badge === "bronze" ? (
             <div className="flex justify-center items-center space-x-2">
               <div>
-                <button className="btn btn-secondary">
-                  Bronze Membership
-                </button>
+                <button className="btn btn-secondary">Bronze Membership</button>
               </div>
               <div>
                 <button className="btn btn-secondary">
-                  Pay $10 Get Gold Membership
+                  Pay $12 Get Gold Membership
                 </button>
               </div>
               <div>
-                <button className="btn btn-error ml-8">Pay</button>
+                <Link to='/payment'>
+                  <button className="btn btn-error ml-8">Pay</button>
+                </Link>
               </div>
             </div>
           ) : (
@@ -141,10 +144,11 @@ const MyProfile = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3">
         {
           // console.log(userPost)
-          userPost.map(post => <ProfilePostCard key={post._id} post={post}/>)
+          userPost.map((post) => (
+            <ProfilePostCard key={post._id} post={post} />
+          ))
         }
       </div>
-
     </div>
   );
 };

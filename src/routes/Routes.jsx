@@ -16,6 +16,7 @@ import ReportedActivities from "../pages/Dashboard/ReportedActivities";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement";
 import PrivateRoutes from "./PrivateRoutes";
 import Comments from "../pages/Comments/Comments";
+import Payments from "../pages/Payments/Payments";
 
 
 const router = createBrowserRouter([
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         {
           path: '/signup',
           element: <Signup />
+        },
+        {
+          path: '/payment',
+          element: <PrivateRoutes> <Payments /> </PrivateRoutes>
         }
       ]
     },
