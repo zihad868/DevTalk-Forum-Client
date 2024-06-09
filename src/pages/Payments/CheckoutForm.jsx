@@ -2,8 +2,11 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
+  const navigate = useNavigate();
   const {user} = useAuth();
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
@@ -80,7 +83,16 @@ const CheckoutForm = () => {
         }
 
         const res = await axiosSecure.post('/payment', paymentInfo);
-        console.log(res.d)
+        if(res?.data?.paymentResult?.insertedId){
+          navigate('/dashboard/myProfile')
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Payment Success",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
      }
    }
 
