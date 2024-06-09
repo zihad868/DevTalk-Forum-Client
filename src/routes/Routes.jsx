@@ -17,6 +17,7 @@ import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement";
 import PrivateRoutes from "./PrivateRoutes";
 import Comments from "../pages/Comments/Comments";
 import Payments from "../pages/Payments/Payments";
+import Search from "../pages/Search/Search";
 
 
 const router = createBrowserRouter([
@@ -31,7 +32,11 @@ const router = createBrowserRouter([
         },
         {
             path: '/membership',
-            element: <Membership />
+            element: <PrivateRoutes> <Membership /> </PrivateRoutes>
+        },
+        {
+            path: '/post/search',
+            element: <Search />
         },
         {
             path: '/comments/:id',

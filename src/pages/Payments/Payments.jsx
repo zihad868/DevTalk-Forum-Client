@@ -4,7 +4,7 @@ import SectionTitle from '../../shared/SectionTitle/SectionTitle';
 import CheckoutForm from './CheckoutForm';
 
 // Ensure to use the correct prefix for Vite environment variables
-console.log("Api key", import.meta.env.VITE_STRIPE_API_PK);
+// console.log("Api key", import.meta.env.VITE_STRIPE_API_PK);
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_API_PK);
 
 const Payments = () => {
