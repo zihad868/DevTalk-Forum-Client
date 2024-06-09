@@ -6,8 +6,8 @@
 -  https://devtalk-ee27e.web.app/
 
 ## Admin Email & Password
-email: admin@gmail.com
-Admin password: admin123
+- email: admin@gmail.com
+-  password: admin123
 
   
 ## Features and characteristics
