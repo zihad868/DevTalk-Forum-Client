@@ -11,7 +11,6 @@ const PostCard = ({ post }) => {
   const [, , refetch] = usePosts();
   const [comment, setComment] = useState("");
 
-  console.log(post.comments);
 
   const handleComments = async (id) => {
     setError("");
@@ -141,7 +140,7 @@ const PostCard = ({ post }) => {
           </button>
           <p className="text-red-500">{error}</p>
         </div>
-        {post?.comments.map((comment, idx) => (
+        {post?.comments?.map((comment, idx) => (
         <Comments key={idx} comment={comment} />
       ))}
       </div>

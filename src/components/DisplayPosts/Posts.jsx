@@ -8,25 +8,35 @@ import { useEffect, useState } from "react";
 const Posts = () => {
   const axiosPublic = useAxiosPublic();
   const [posts, isPending] = usePosts();
-  const [postData, setPostData] = useState([]);
+  const [postData, setPostData] = useState([]); 
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Effect to set postData to initial posts
   useEffect(() => {
-    setPostData(posts)
-  }, [posts])
+    setPostData(posts);
+  }, [posts]);
 
-  // console.log(postData)
-  // console.log((posts));
-
-
+  
+  const handlePopular = async () => {
+    setIsLoading(true); 
+    try {
+      const res = await axiosPublic.get('/posts/popular'); 
+      setPostData(res.data); 
+    } catch (error) {
+      console.error("Failed to fetch popular posts", error);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
 
 
   if (isPending) {
     return <Loading />;
   }
 
-  const handlePopular = () => {
-    setPostData('')
-    axiosPublic('/posts/popular')
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -41,7 +51,7 @@ const Posts = () => {
       </div>
 
       <div>
-        {posts.map((post) => (
+        {postData.map((post) => (
           <PostCard key={post._id} post={post} />
         ))}
       </div>
