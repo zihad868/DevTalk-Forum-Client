@@ -14,8 +14,11 @@ const Posts = () => {
     setPostData(posts)
   }, [posts])
 
-  console.log(postData)
-  console.log((posts));
+  // console.log(postData)
+  // console.log((posts));
+
+
+
 
   if (isPending) {
     return <Loading />;

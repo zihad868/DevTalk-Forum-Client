@@ -1,20 +1,46 @@
+import { useState } from "react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import usePosts from "../../hooks/usePosts";
+import useAuth from "../../hooks/useAuth";
+import Comments from "../Comments";
 
 const PostCard = ({ post }) => {
+  const { user } = useAuth();
+  const [error, setError] = useState("");
   const axiosPublic = useAxiosPublic();
-  const [ , , refetch] = usePosts();
+  const [, , refetch] = usePosts();
+  const [comment, setComment] = useState("");
 
-  const handleUpVote = (id) => {
-    axiosPublic.post(`/post/upvote/${id}`)
+  console.log(post.comments);
+
+  const handleComments = async (id) => {
+    setError("");
+    const commentInfo = {
+      name: user?.displayName || "anonymous",
+      email: user?.email || "anonymous",
+      userImage: user?.photoURL,
+      comment,
+      postId: id,
+    };
+
+    try {
+      await axiosPublic.post(`/posts/${id}/comment`, { commentInfo });
+      setComment("");
+      refetch();
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const handleUpVote = async (id) => {
+    await axiosPublic.post(`/post/upvote/${id}`);
     refetch();
-  }
+  };
 
-  const handleDownVote = (id) => {
-    axiosPublic.post(`/post/downvote/${id}`)
+  const handleDownVote = async (id) => {
+    await axiosPublic.post(`/post/downvote/${id}`);
     refetch();
-  }
-
+  };
 
   return (
     <div>
@@ -33,9 +59,7 @@ const PostCard = ({ post }) => {
             >
               {post?.authName}
             </a>
-            <span className="text-xs dark:text-gray-600">
-              {post.createDate}
-            </span>
+            <span className="text-xs dark:text-gray-600">{post.createDate}</span>
           </div>
         </div>
         <div>
@@ -49,11 +73,7 @@ const PostCard = ({ post }) => {
         </div>
         <div className="flex flex-wrap justify-between">
           <div className="space-x-2">
-            <button
-              aria-label="Share this post"
-              type="button"
-              className="p-2 text-center"
-            >
+            <button aria-label="Share this post" type="button" className="p-2 text-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -62,11 +82,7 @@ const PostCard = ({ post }) => {
                 <path d="M404,344a75.9,75.9,0,0,0-60.208,29.7L179.869,280.664a75.693,75.693,0,0,0,0-49.328L343.792,138.3a75.937,75.937,0,1,0-13.776-28.976L163.3,203.946a76,76,0,1,0,0,104.108l166.717,94.623A75.991,75.991,0,1,0,404,344Zm0-296a44,44,0,1,1-44,44A44.049,44.049,0,0,1,404,48ZM108,300a44,44,0,1,1,44-44A44.049,44.049,0,0,1,108,300ZM404,464a44,44,0,1,1,44-44A44.049,44.049,0,0,1,404,464Z"></path>
               </svg>
             </button>
-            <button
-              aria-label="Bookmark this post"
-              type="button"
-              className="p-2"
-            >
+            <button aria-label="Bookmark this post" type="button" className="p-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -77,7 +93,11 @@ const PostCard = ({ post }) => {
             </button>
           </div>
           <div className="flex space-x-2 text-sm dark:text-gray-600">
-            <button onClick={() => handleUpVote(post._id)} type="button" className="flex items-center p-1 space-x-1.5">
+            <button
+              onClick={() => handleUpVote(post._id)}
+              type="button"
+              className="flex items-center p-1 space-x-1.5"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -90,7 +110,11 @@ const PostCard = ({ post }) => {
               <span>{post.upVote}</span>
             </button>
 
-            <button onClick={() => handleDownVote(post._id)} type="button" className="flex items-center p-1 space-x-1.5">
+            <button
+              onClick={() => handleDownVote(post._id)}
+              type="button"
+              className="flex items-center p-1 space-x-1.5"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -106,13 +130,22 @@ const PostCard = ({ post }) => {
 
         {/* Comments Section  */}
         <div className="mt-4">
-          <input
+          <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
             type="text"
-            placeholder="Comments"
             className="input input-bordered w-full"
           />
+          <button onClick={() => handleComments(post._id)} className="btn btn-primary mt-1">
+            Add Comments
+          </button>
+          <p className="text-red-500">{error}</p>
         </div>
+        {post?.comments.map((comment, idx) => (
+        <Comments key={idx} comment={comment} />
+      ))}
       </div>
+      
     </div>
   );
 };
