@@ -9,7 +9,6 @@ const Search = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const queryValue = queryParams.get("query");
 
-  console.log(queryValue)
 
   const {data: posts = [], isPending} = useQuery({
     queryKey: ['search'],
@@ -34,7 +33,7 @@ const Search = () => {
 
   return (
     <div>
-      <div>
+      <div className='mt-24'>
         {
           posts.map((post, idx) => <PostCard key={idx} post={post} />)
         }
