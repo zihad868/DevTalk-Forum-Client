@@ -71,7 +71,20 @@ const Banner = () => {
                 </svg>
               </label>
             </div>
-            <button type="submit" className="btn btn-secondary mt-2">Get Result</button>
+
+            <button type="submit" className="btn btn-secondary mt-2">
+              Get Result
+            </button>
+            <div className="flex justify-evenly items-center mt-5">
+              <button
+                type="submit"
+                className="btn flex justify-start btn-primary mt-2"
+              >
+                Popular Search {"---"}
+              </button>
+              <p className="text-3xl font-semibold">django</p>
+              <p className="text-3xl font-semibold">react</p>
+            </div>
           </form>
         </div>
       </div>
