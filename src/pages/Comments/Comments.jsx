@@ -2,16 +2,28 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Loading from "../../shared/Loading/Loading";
+import { useState } from "react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAuth from "../../hooks/useAuth";
+import Comments2 from '../../components/Comments'
 
 const Comments = () => {
   const params = useParams();
   const axiosSecure = useAxiosSecure();
   const postId = params.id;
 
+  // comment 
+  const [comment, setComment] = useState("");
+  const [error, setError] = useState("");
+  const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
+  
+
   const {
     data: post = {},
     isLoading,
-    error,
+    error: queryError,
+    refetch
   } = useQuery({
     queryKey: ["comments", postId],
     queryFn: async () => {
@@ -20,14 +32,34 @@ const Comments = () => {
     },
   });
 
-  console.log(post);
+
+  // Comment 
+  const handleComment = async (id) => {
+    setError("");
+    const commentInfo = {
+      name: user?.displayName || "anonymous",
+      email: user?.email || "anonymous",
+      userImage: user?.photoURL,
+      comment,
+      postId: id,
+    };
+
+    try {
+      await axiosPublic.post(`/posts/${id}/comment`, { commentInfo });
+      setComment("");
+      refetch();
+    } catch (error) {
+      setError(error);
+    }
+  };
+
 
   if (isLoading) {
     return <Loading />;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (queryError) {
+    return <div>Error: {queryError.message}</div>;
   }
 
   return (
@@ -88,11 +120,19 @@ const Comments = () => {
         </div>
 
         <div className="mt-4">
-          <input
+        <textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
             type="text"
-            placeholder="Comments"
             className="input input-bordered w-full"
           />
+          <button onClick={() => handleComment(post._id)} className="btn btn-primary">Add Comment</button>
+          <p className="text-red-500">{error}</p>
+          {
+            post?.comments?.map((comment, idx) => (
+              <Comments2 key={idx} comment={comment} />
+            ))
+          }
         </div>
       </div>
     </div>
