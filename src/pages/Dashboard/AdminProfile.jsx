@@ -1,11 +1,14 @@
+import AdminInfo from "./Admin/AdminInfo";
+import Chart from "./Admin/Chart";
 
 
 const AdminProfile = () => {
-    return (
-        <div>
-            <h2>Admin Profile</h2>
-        </div>
-    );
+  return (
+    <div>
+      <AdminInfo />
+      <Chart />
+    </div>
+  );
 };
 
 export default AdminProfile;
