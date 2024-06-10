@@ -32,7 +32,7 @@ const Comments = () => {
     },
   });
 
-  const comtLength = post.comments.length;
+  const comtLength = post?.comments?.length;
 
 
   // Comment 

@@ -9,6 +9,7 @@ import moment from "moment";
 import useUser from "../../hooks/useUser";
 import usePostEmail from "../../hooks/usePostEmail";
 import { Link } from "react-router-dom";
+import Ban from "../../shared/Ban";
 
 const options = [
   { value: "javascript", label: "JavaScript" },
@@ -103,6 +104,10 @@ const AddPost = () => {
       });
     }
   };
+
+  if(dbUser?.status === "ban"){
+    return <Ban />
+  }
 
   if (
     dbUser?.badge === "gold" ||

@@ -12,7 +12,7 @@ const Comments = ({ comment }) => {
     setShowFullText((prev) => !prev);
   };
 
-  const previewText = commentText.slice(0, 20); // Show the first 100 characters as a preview
+  const previewText = commentText.slice(0, 20); // Show the first 20 characters as a preview
 
   return (
     <div className="flex space-x-4 mt-4 p-4 border-t border-gray-300">
@@ -27,7 +27,7 @@ const Comments = ({ comment }) => {
         <span className="text-xs dark:text-gray-600">{date}</span>
         <p className="text-sm dark:text-gray-600">
           {showFullText ? commentText : previewText}
-          {commentText.length > 10 && (
+          {commentText && commentText.length > 10 && (
             <span
               onClick={toggleShowFullText}
               className="text-blue-500 cursor-pointer ml-2"
