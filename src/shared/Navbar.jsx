@@ -4,9 +4,16 @@ import logo from "../assets/Logo/logo.jpg";
 import { useContext } from "react";
 import { authContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
+import useAnnouncement from "../hooks/useAnnouncement";
+
+
 
 const Navbar = () => {
   const { user, signOutUser } = useContext(authContext);
+  const [announcement] = useAnnouncement();
+
+  const announce = announcement.length;
+
 
   const logoutUser = () => {
     signOutUser()
@@ -38,10 +45,18 @@ const Navbar = () => {
       <NavLink to="/membership" activeClassName="active">
         <li>Membership</li>
       </NavLink>
-      <NavLink to="/notifications">
-        <MdOutlineAddAlert className="text-2xl mt-1" />
-        <li className="flex items-center"></li>
+      {
+        announce > 0 ? 
+        <>
+        <NavLink to="/notifications" className='flex'>
+        <MdOutlineAddAlert className="text-3xl" />
+        <li className="bg-red-400 text-white rounded-full m-1 -top-3 right-4">{announce}</li>
       </NavLink>
+        </>
+        :
+        <> </>
+      }
+      
     </>
   );
 
