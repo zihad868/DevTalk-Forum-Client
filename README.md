@@ -11,15 +11,20 @@
 
   
 ## Features and characteristics
--  Click one category and data show based on the category
--  Only Authentic users can add books
--  View button display book data fetch from API
--  Update button update data MongoDB server
--  Delete button remove the book from database
--  Borrowed Books routes only users can view their borrowed books
-- Login with Email and Google Account
-- Wrong URL visit display page not found
-
+-  Dashboard for normal users and Admin
+-  Amin can Ban, Delete, Make admin users,
+-  Users can Delete their only post,
+-  User can comment, Like, or Dislike any post,
+-  Normal users can only five posts,
+-  Stripe Payment Method Implementation,
+-  Paid Users can post unlimited,
+- If Admin bans user, User can not post,
+- JWT token and Private Route, Admin Routes used for security,
+- Register, Login, Logout functionality
+- Search functionality,
+- Comment any post,
+- Get the most popular post based on likes & dislike 
+  
 ## npm package
 - React Hook form
 - Sweetalert
