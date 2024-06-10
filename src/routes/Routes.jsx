@@ -18,6 +18,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import Comments from "../pages/Comments/Comments";
 import Payments from "../pages/Payments/Payments";
 import Search from "../pages/Search/Search";
+import Announcement from "../pages/Announcement/Announcement";
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             path: '/membership',
             element: <PrivateRoutes> <Membership /> </PrivateRoutes>
         },
+        {
+          path: '/notifications',
+          element: <PrivateRoutes> <Announcement /> </PrivateRoutes>
+      },
         {
             path: '/post/search',
             element: <Search />
