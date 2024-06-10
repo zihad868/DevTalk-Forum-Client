@@ -14,6 +14,9 @@ const ManageUsers = () => {
     return <Loading />;
   }
 
+
+  console.log(users)
+
   const handleDeleteUser = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -79,6 +82,7 @@ const ManageUsers = () => {
             <th>Email</th>
             <th>Role</th>
             <th>Action</th>
+            <th>Subscription</th>
           </tr>
         </thead>
         <tbody>
@@ -121,6 +125,9 @@ const ManageUsers = () => {
                 >
                   Delete User
                 </button>
+              </th>
+              <th className="flex justify-center">
+                <button className="btn btn-primary">{user?.badge}</button>
               </th>
             </tr>
           ))}
