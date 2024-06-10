@@ -6,9 +6,9 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import moment from "moment";
-import useUser from "../../hooks/useUser";
 import usePostEmail from "../../hooks/usePostEmail";
 import { Link } from "react-router-dom";
+import useUser from '../../hooks/useUser';
 import Ban from "../../shared/Ban";
 
 const options = [
@@ -29,7 +29,7 @@ const AddPost = () => {
 
   const [dbUser] = useUser();
   const [userPost] = usePostEmail();
-  console.log(dbUser);
+  console.log(dbUser?.status);
   const postLength = Object.keys(userPost).length;
 
   console.log("post", postLength, typeof postLength);
@@ -105,9 +105,9 @@ const AddPost = () => {
     }
   };
 
-  if(dbUser?.status === "ban"){
+  if(dbUser?.status){
     return <Ban />
-  }
+    }
 
   if (
     dbUser?.badge === "gold" ||
