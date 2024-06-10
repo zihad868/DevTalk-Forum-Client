@@ -32,6 +32,8 @@ const Comments = () => {
     },
   });
 
+  const comtLength = post.comments.length;
+
 
   // Comment 
   const handleComment = async (id) => {
@@ -53,6 +55,16 @@ const Comments = () => {
     }
   };
 
+  const handleUpVote = async (id) => {
+    await axiosPublic.post(`/post/upvote/${id}`);
+    refetch();
+  };
+
+  const handleDownVote = async (id) => {
+    await axiosPublic.post(`/post/downvote/${id}`);
+    refetch();
+  };
+
 
   if (isLoading) {
     return <Loading />;
@@ -71,7 +83,7 @@ const Comments = () => {
         {/* Button */}
         <div className="flex justify-between mt-2">
           <div className="flex">
-            <button type="button" className="flex items-center p-1 space-x-1.5">
+            <button onClick={() => handleUpVote(post._id)} type="button" className="flex items-center p-1 space-x-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -84,7 +96,7 @@ const Comments = () => {
               <span>{post.upVote}</span>
             </button>
 
-            <button type="button" className="flex items-center p-1 space-x-1.5">
+            <button onClick={() => handleDownVote(post._id)} type="button" className="flex items-center p-1 space-x-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
@@ -102,7 +114,7 @@ const Comments = () => {
               title="Share post"
               className="flex items-center justify-center"
             >
-              <span>5</span>
+              <span>{comtLength}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"
