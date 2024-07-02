@@ -1,6 +1,7 @@
 
 
 ## Website Name:- DevTalk 
+DevTalk Forum is an online communication platform where registered members can share opinions, comment, and like posts. Normal users can post up to five times, while Gold members, who use Stripe for payment, can post unlimitedly. The platform features dashboards for both users and admins. Admins can ban users, delete posts, and promote users to admin. Users can delete their own posts and interact with any post through comments, likes, or dislikes. JWT tokens and private/admin routes ensure security. The platform supports registration, login, and logout functionality, with search capabilities and a feature to display the most popular posts based on likes and dislikes.
 
 ## Live Link
 -  https://devtalk-ee27e.web.app/
