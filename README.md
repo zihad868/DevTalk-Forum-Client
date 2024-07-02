@@ -36,6 +36,12 @@
 - React Simple Typewriter
 
 
+## Clone and Run Local
+-  first clone client
+-  command npm install
+-  setup firebase configure in .env file
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
