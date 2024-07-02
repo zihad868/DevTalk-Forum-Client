@@ -39,7 +39,7 @@
 ## Clone and Run Local
 -  first clone client
 -  command npm install
--  setup firebase configure in .env file
+-  setup firebase configuration in the .env file
 
 
 # React + Vite
